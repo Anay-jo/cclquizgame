@@ -11,6 +11,7 @@ from flask import json
 from flask import jsonify
 import pickle
 from sqlalchemy import create_engine
+from sqlalchemy import URL
 from sqlalchemy import text
 # from wtforms.fields.html5 import EmailField
 from flask_bcrypt import Bcrypt
@@ -183,12 +184,11 @@ def about():
 def register():
     error = None
     form = RegisterForm()
-
+    uerror = None
     if form.validate_on_submit():
-        curr_user = User.query.filter_by(username = form.username.data)
-        if curr_user:
-            print("Username taken")
-            error = True
+        existing_user_username = User.query.filter_by(username = form.username.data).first()
+        if existing_user_username:
+            uerror = True
         elif (form.password_val.data != form.password.data):
             print(form.password_val.data)
             print(form.password.data)
@@ -202,7 +202,7 @@ def register():
             session["login"] = True
             return render_template("index.html", username = session["username"], login = session["login"])
 
-    return render_template('register.html', form = form, error = error)
+    return render_template('register.html', form = form, error = error, username_error = uerror)
     
 @app.route("/login", methods=["GET", "POST"])
 def login():
