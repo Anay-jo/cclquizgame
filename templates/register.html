@@ -41,6 +41,9 @@
                         <div class = "column-two">
                             <label for="email">Username*</label>
                             {{ form.username }}
+                            {% if username_error%}
+                            <p class="input-error">Username already exists</p>
+                            {% endif %}
                             <label for="password_val">Confirm Password*</label>
                             <!-- <input type="password" id="password_validation"
                             title="Password must contain min. 8 characters:"
