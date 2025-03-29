@@ -34,6 +34,7 @@ async function updateScore(score) {
 
 
 function showQuestion(question) {
+    document.getElementById("total").innerText = questions.length;
     const questionElement = document.getElementById("question");
     const answerButtonsElement = document.getElementById("answer-buttons");
     resetState();
